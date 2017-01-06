@@ -1,4 +1,4 @@
-# Skills Share
+# Collaborative Filter Example Website
 
 ## Installation
 
