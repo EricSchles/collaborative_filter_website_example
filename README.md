@@ -1,5 +1,24 @@
 # Collaborative Filter Example Website
 
+##Idea
+
+The user will be presented with a number of choices.  As a result of the choices they make on the website, over time, there experience will change.
+
+Our example will be a series of pictures.  And we'll try to figure out the person's sense of humor over time.
+
+Dad Jokes
+Nerd Jokes
+Weird Jokes
+Cat Memes
+Dog Memes
+
+Over time - we'll show people more jokes that they like.  So we'll classify individuals into one of these five categories by showing them jokes and asking them to rate the joke.
+
+We can also bring in a time component to this.
+
+We can record what time of day they went to the website, and then based on this, we can make a richer set of recommendations.
+
+
 ## Installation
 
 The first thing you'll need to do is clone this repo, it's preferred that you fork it and then submit pull requests from your fork.  This way we have clear providence of who did what, but also, it will be easier to roll back changes, should something be wrong, before committing to the canonical master repository.

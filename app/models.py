@@ -9,98 +9,53 @@ __init__ function for each model is a constructor, and is necessary to enter
 """ 
 from app import db
 
-class Users(db.Model):
+
+class Jokes(db.Model):
     """
-    This model gives us a set of specific information for each user in this application
+    This model gives us a record of all the jokes they have preferred over time.
     
     parameters:
-    @name - the persons name; in order first, last
-    @email - the person's gsa email
-    functions:
-    __str__ - Returns the user name and password as an formatted string <Id: id, Username: username>
+    @dad_joke - frequency of times they liked dad jokes
+    @nerd_joke - frequency of times they liked nerd jokes
+    @weird_joke - frequency of times they liked weird jokes
+    @cat_meme - frequency of times they liked cat memes
+    @dog_meme - frequency of times they liked dog memes
+    @dad_timestamps - list of all timestamps when a dad joke was liked
+    @nerd_timestamps - list of all timestamps when a nerd joke was liked
+    @weird_timestamps - list of all timestamps when a weird joke was liked
+    @cat_timestamps - list of all timestamps when a cat joke was liked
+    @dog_timestamps - list of all timestamps when dog joke was liked
+    @user_id - user's id which we get from the cookie stored on their computer
     """
-    __tablename__ = 'users'
+    __tablename__ = 'jokes'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    email = db.Column(db.String,unique=True) 
+    dad_joke = db.Column(db.Integer)
+    nerd_joke = db.Column(db.Integer)
+    weird_joke = db.Column(db.Integer)
+    cat_meme = db.Column(db.Integer)
+    dog_meme = db.Column(db.Integer)
+    dad_timestamps = db.Column(db.String)
+    nerd_timestamps = db.Column(db.String)
+    weird_timestamps = db.Column(db.String)
+    cat_timestamps = db.Column(db.String)
+    dog_timestamps = db.Column(db.String)
+    user_id = db.Column(db.String)
 
-    def __init__(self,name,email):
-        self.name = name
-        self.email = email
+    def __init__(self, dad_joke, nerd_joke, weird_joke, cat_meme, dog_meme,
+                 dad_timestamps, nerd_timestamps, weird_timestamps, cat_timestamps,
+                 dog_timestamps, user_id):
+        self.dad_joke = dad_joke
+        self.nerd_joke = nerd_joke
+        self.weird_joke = weird_joke
+        self.cat_meme = cat_meme
+        self.dog_meme = dog_meme
+        self.dad_timestamps = dad_timestamps
+        self.nerd_timestamps = nerd_timestamps
+        self.weird_timestamps = weird_timestamps
+        self.cat_timestamps = cat_timestamps
+        self.dog_timestamps = dog_timestamps
+        self.user_id = user_id
 
     def __str__(self):
-        return "<name: {}, email:{}>".format(self.name,self.email)
-
-class Languages(db.Model):
-    """
-    This model gives us a mapping from email to the languages associated with that user
-
-    parameters:
-    @email - the person's gsa email
-    @language - a computer programming language the person knows
-    @competency_level - describes the skill level with a given language, 
-    options are: novice, basic, experienced, expert, master 
-    """
-    __tablename__ = 'languages'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String)
-    language = db.Column(db.String)
-    competency_level = db.Column(db.String)
-
-    def __init__(self,email,language,competency_level):
-        self.email = email
-        self.language = language
-        self.competency_level = competency_level
-
-    def __str__(self):
-        return repr(self.email)
-
-class Specializations(db.Model):
-    """
-    This model gives us a mapping from email to the specializations associated with that user.
-    
-    parameters:
-    @email - the person's gsa email
-    @specialization - this is a broad set of discrete skills
-    @competency_level - describes the skill level with a given specialization,
-    options are: novice, basic, experienced, expert, master
-    """
-    __tablename__ = 'specializations'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String)
-    specialization = db.Column(db.String)
-    competency_level = db.Column(db.String)
-
-    def __init__(self,email,specialization,competency_level):
-        self.email = email
-        self.specialization = specialization
-        self.competency_level = competency_level
-
-
-mentored = db.Table('mentored',
-    db.Column('mentee', db.Integer, db.ForeignKey('social_connections.email')),
-    db.Column('mentored', db.Integer, db.ForeignKey('social_connections.email'))
-)
-
-class SocialConnections(db.Model):
-    """
-    This model captures the relationships at 18F.  Everything is with respect to a user.
-    
-    parameters:
-    @email - the person's gsa email
-    @facilitator - the person's facilitator
-    @manager - the person's manager
-    @facilitation_group - the faciliation group for the individual
-    """
-    __tablename__ = "social_connections"
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String)
-    facilitator = db.Column(db.String)
-    manager = db.Column(db.String)
-    facilitation_group = db.Column(db.String)
-    
-    def __init__(self,email,facilitator,manager, facilitation_group):
-        self.email = email
-        self.facilitator = facilitator
-        self.manager = manager
-        self.facilitation_group = facilitation_group
+        return self.user_id
+        
