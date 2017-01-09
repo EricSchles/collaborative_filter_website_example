@@ -3,7 +3,9 @@ from flask import request, render_template,redirect, url_for
 import json
 from app.models import Jokes
 from datetime import datetime
-
+from glob import glob
+import os
+import random
 
 def increment_value(obj,decision):
     if decision == "dad_joke":
@@ -36,7 +38,18 @@ def increment_value(obj,decision):
 
 @app.route("/",methods=["GET","POST"])
 def index():
-    return render_template("index.html")
+    starting_directory = os.getcwd()
+    os.chdir("app/static/img")
+    img_dirs = glob("*")
+    os.chdir(starting_directory)
+    first_dir = random.choice(img_dirs)
+    img_dirs.remove(first_dir)
+    second_dir = random.choice(img_dirs)
+    first_picture = random.choice(glob(first_dir+"/*"))
+    second_picture = random.choice(glob(second_dir+"/*"))
+    first_file = "img/"+first_dir+"/"+first_picture
+    second_file = "img/"+second_dir+"/"+second_picture
+    return render_template("index.html", first_file=first_file, second_file=second_file, first_type=first_dir, second_type=second_dir)
 
 
 @app.route("/joke_decision", methods=["GET","POST"])
@@ -44,8 +57,9 @@ def joke_decision():
     user_id = request.form.get("user_id") #this will pull in the information from the cookie with an implicit field from the form
     
     if request.form.get("image_one"):
-        decision = 
-    request.form.get("image_two")
+        decision = request.form.get("image_one")
+    else:
+        decision = request.form.get("image_two")
     joke = Jokes.query.filter_by(user_id=user_id)
     joke = increment_value(joke,decision)
     db.session.add(joke)

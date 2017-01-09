@@ -6,8 +6,8 @@
 
   <body>
 	<form method=post action="{{ url_for('joke_decision') }}">
-		<input id="image_one" name="image_one" type="image" value="image_one" width=400 height=700 style="padding:1px;" src="{{ url_for('static', filename='img/alligator.jpg') }}" alt="description here" />
-		<input id="image_two" name="image_two" type="image" value="image_two" width=400 height=700 style="padding:1px;" src="{{ url_for('static', filename='img/joke.jpg') }}" alt="description here" />
+		<input id="image_one" name="image_one" type="image" value="{{first_dir}}" width=400 height=700 style="padding:1px;" src="{{ url_for('static', filename='{{first_file}}') }}" alt="description here" />
+		<input id="image_two" name="image_two" type="image" value="{{second_dir}}" width=400 height=700 style="padding:1px;" src="{{ url_for('static', filename='{{second_file}}') }}" alt="description here" />
 	</form>
   </body>
 
