@@ -4,6 +4,7 @@ import json
 from app.models import Jokes
 from datetime import datetime
 
+
 def increment_value(obj,decision):
     if decision == "dad_joke":
         obj.dad_joke += 1
@@ -32,22 +33,23 @@ def increment_value(obj,decision):
         obj.dog_timestamps = json.dumps(listing)
     return obj
 
+
 @app.route("/",methods=["GET","POST"])
 def index():
-    if request.method=="POST":
-        username = request.form.get("username")
     return render_template("index.html")
 
 
 @app.route("/joke_decision", methods=["GET","POST"])
 def joke_decision():
-    if request.method=="POST":
-        user_id = request.form.get("user_id") #this will pull in the information from the cookie with an implicit field from the form
-        decision = request.form.get("decision")
-        joke = Jokes.query.filter_by(user_id=user_id)
-        joke = increment_value(joke,decision)
-        db.session.add(joke)
-        db.session.commit()
-        return redirect(url_for("index"))
+    user_id = request.form.get("user_id") #this will pull in the information from the cookie with an implicit field from the form
+    
+    if request.form.get("image_one"):
+        decision = 
+    request.form.get("image_two")
+    joke = Jokes.query.filter_by(user_id=user_id)
+    joke = increment_value(joke,decision)
+    db.session.add(joke)
+    db.session.commit()
+    return redirect(url_for("index"))
     
 # Postgres documentation for Python: https://github.com/EricSchles/postgres_flask_macosx
