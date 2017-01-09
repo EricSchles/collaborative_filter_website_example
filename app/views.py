@@ -39,17 +39,20 @@ def increment_value(obj,decision):
 @app.route("/",methods=["GET","POST"])
 def index():
     starting_directory = os.getcwd()
-    os.chdir("app/static/img")
+    if not starting_directory.endswith("img"):
+        os.chdir("app/static/img")
     img_dirs = glob("*")
-    os.chdir(starting_directory)
     first_dir = random.choice(img_dirs)
     img_dirs.remove(first_dir)
     second_dir = random.choice(img_dirs)
     first_picture = random.choice(glob(first_dir+"/*"))
     second_picture = random.choice(glob(second_dir+"/*"))
-    first_file = "img/"+first_dir+"/"+first_picture
-    second_file = "img/"+second_dir+"/"+second_picture
-    return render_template("index.html", first_file=first_file, second_file=second_file, first_type=first_dir, second_type=second_dir)
+    first_file = "img/"+first_picture
+    second_file = "img/"+second_picture
+    os.chdir(starting_directory)
+    first_img_url = url_for('static', filename=first_file)
+    second_img_url = url_for('static', filename=second_file) 
+    return render_template("index.html", first_img_url=first_img_url, second_img_url=second_img_url, first_dir=first_dir, second_dir=second_dir)
 
 
 @app.route("/joke_decision", methods=["GET","POST"])
