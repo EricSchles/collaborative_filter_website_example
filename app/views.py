@@ -39,7 +39,7 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-
+#ToDo update this method, like a ton
 def increment_value(obj,decision):
     if decision == "dad_jokes":
         obj.dad_joke += 1
@@ -96,11 +96,14 @@ def joke_decision():
     user_id = auth.username #this will pull in the information from the cookie with an implicit field from the form
     if request.form.get("image_one"):
         decision = request.form.get("image_one")
+        import code
+        code.interact(local=locals())
     else:
         decision = request.form.get("image_two")
     
     joke = Jokes.query.filter_by(user_id=user_id).first()
     joke = increment_value(joke,decision)
+    Jokes.query.filter_by(user_id=user_id).delete()
     db.session.add(joke)
     db.session.commit()
     return redirect(url_for("index"))
