@@ -103,7 +103,6 @@ def joke_decision():
     
     joke = Jokes.query.filter_by(user_id=user_id).first()
     joke = increment_value(joke,decision)
-    Jokes.query.filter_by(user_id=user_id).delete()
     db.session.add(joke)
     db.session.commit()
     return redirect(url_for("index"))
