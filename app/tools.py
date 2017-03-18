@@ -1,7 +1,41 @@
 from pgmpy import inference
 from pgmpy.models import BayesianModel
-from pgmpy.factors import TabularCPD
-from app.models import Jokes
+from app.models import Jokes 
+from pgmpy.estimators import ExhaustiveSearch, BdeuScore, K2Score, BicScore
+import pandas as pd
+
+# es = ExhaustiveSearch(data, scoring_method=bic)
+# best_model = es.estimate()
+# print(best_model.edges())
+
+# print("\nAll DAGs by score:")
+# for score, dag in reversed(es.all_scores()):
+#     print(score, dag.edges())
+
+def train_joke_type_selection():
+    #one table
+    jokes = Jokes.query.all()
+    joke_preferences = []
+    for i in range(sum([joke_preference.nerd_joke for joke_preference in jokes])):
+        joke_preferences.append("nerd joke")
+    for i in range(sum([joke.weird_joke for joke in jokes])):
+        joke_preferences.append("weird joke")
+    for i in range(sum([joke.cat_meme for joke in jokes])):
+        joke_preferences.append("cat meme")
+    for i in range(sum([joke.dog_meme for joke in jokes])):
+        joke_preferences.append("dog meme")
+    for i in range(sum([joke.dad_joke for joke in jokes])):
+        joke_preferences.append("dad joke")
+    data = pd.DataFrame()
+    for joke_preference in joke_preferences:
+        data = data.append({"joke_preference":joke_preference},ignore_index=True)
+        
+    bic = BicScore(data)
+    import code
+    code.interact(local=locals())
+    es = ExhaustiveSearch(data, scoring_method=bic)
+    best_model = es.estimate()
+    return best_model
 
 def main():
     number_of_users = len(set([joke.user_id for joke in Jokes.query.all()]))

@@ -41,6 +41,7 @@ def requires_auth(f):
 
 #ToDo update this method, like a ton
 def increment_value(obj,decision):
+
     if decision == "dad_jokes":
         obj.dad_joke += 1
         listing = json.loads(obj.dad_timestamps)
@@ -76,9 +77,13 @@ def index():
     if not starting_directory.endswith("img"):
         os.chdir("app/static/img")
     img_dirs = glob("*")
-    first_dir = random.choice(img_dirs)
+    #####
+    # Add code here (clean up explanation of this
+    #####
+    
+    first_dir = random.choice(img_dirs) #pick first joke type to show to end user
     img_dirs.remove(first_dir)
-    second_dir = random.choice(img_dirs)
+    second_dir = random.choice(img_dirs) #pick second joke type to show to end user
     first_picture = random.choice(glob(first_dir+"/*"))
     second_picture = random.choice(glob(second_dir+"/*"))
     first_file = "img/"+first_picture
@@ -96,11 +101,10 @@ def joke_decision():
     user_id = auth.username #this will pull in the information from the cookie with an implicit field from the form
     if request.form.get("image_one"):
         decision = request.form.get("image_one")
-        import code
-        code.interact(local=locals())
+        # import code
+        # code.interact(local=locals())
     else:
         decision = request.form.get("image_two")
-    
     joke = Jokes.query.filter_by(user_id=user_id).first()
     joke = increment_value(joke,decision)
     db.session.add(joke)
@@ -128,6 +132,10 @@ def sign_up():
             db.session.add(user)
             db.session.commit()
             joke = Jokes(0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0,
+                         0, 0, 0, 0, 0,
                          json.dumps([]), json.dumps([]), json.dumps([]), json.dumps([]), json.dumps([]),
                          username)
             db.session.add(joke)
